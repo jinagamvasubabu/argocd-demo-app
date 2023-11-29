@@ -36,6 +36,9 @@ jobs:
         file: ./Dockerfile
         platforms: linux/amd64
         push: true
+        registry: docker.io
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
         tags: |
           hangoutdude/argocd-demo-app:latest
           hangoutdude/argocd-demo-app:v${{ github.run_number }}
