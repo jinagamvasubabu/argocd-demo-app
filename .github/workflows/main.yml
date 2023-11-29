@@ -1,0 +1,50 @@
+name: Node.js CI with Docker
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: 14
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Build and run Node.js app
+      run: |
+        npm run build
+        npm start &
+        echo "Node.js app is running on port 3000"
+
+    - name: Set up Docker
+      uses: docker/setup-buildx-action@v1
+
+    - name: Build and push Docker image
+      uses: docker/build-push-action@v2
+      with:
+        context: .
+        file: ./Dockerfile
+        platforms: linux/amd64
+        push: true
+        tags: |
+          hangoutdude/argocd-demo-app:latest
+          yhangoutdude/rgocd-demo-app:v${{ github.run_number }}
+        build-args: |
+          NODE_VERSION=14  # Specify the Node.js version used in your Dockerfile
+
+    - name: Stop Node.js app
+      run: kill $(lsof -t -i:3000)
+
+    - name: Cleanup
+      run: npm prune
