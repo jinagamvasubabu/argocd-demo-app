@@ -51,3 +51,13 @@ jobs:
 
     - name: Cleanup
       run: npm prune
+    
+    - name: Dispatch event to update Kubernetes manifest
+      uses: peter-evans/repository-dispatch@v2
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        repository: jinagamvasubabu/argo-cd-demo-app-config # Replace with the username and repository name
+        event-type: update-manifest
+        client-payload: '{"new_version": "${{ github.run_number }}"}'
+    
+    
