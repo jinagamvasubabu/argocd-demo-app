@@ -23,7 +23,6 @@ jobs:
 
     - name: Build and run Node.js app
       run: |
-        npm run build
         npm start &
         echo "Node.js app is running on port 3000"
 
