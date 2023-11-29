@@ -38,7 +38,7 @@ jobs:
         push: true
         tags: |
           hangoutdude/argocd-demo-app:latest
-          yhangoutdude/rgocd-demo-app:v${{ github.run_number }}
+          hangoutdude/argocd-demo-app:v${{ github.run_number }}
         build-args: |
           NODE_VERSION=14  # Specify the Node.js version used in your Dockerfile
 
